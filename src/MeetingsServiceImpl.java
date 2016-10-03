@@ -5,7 +5,6 @@ import java.net.URLConnection;
 
 import org.springframework.util.StringUtils;
 
-
 public class MeetingsServiceImpl implements MeetingsService {
 
 	String name = "Meeting";
@@ -16,12 +15,13 @@ public class MeetingsServiceImpl implements MeetingsService {
 	public MeetingsServiceImpl() {
 		try {
 			eavesdropURL = new URL(baseURL);
-		} catch(Exception e) {
+		} 
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public String composeEmail() {
-		return "test email.";
+	public String testRun() {
+		return "runs well !";
 	}
 	public String getName() {
 		return this.name;
@@ -35,16 +35,17 @@ public class MeetingsServiceImpl implements MeetingsService {
 			URLConnection connection = eavesdropURL.openConnection();
 			readData = readDataFromEavesdrop(connection);
 			retVal = parseOutput(readData);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return retVal;
+		
+		return "RETURN: ----> \"" + retVal + "\"\n";
 	}
 	protected String readDataFromEavesdrop(URLConnection connection) {
 		String retVal = "";
 		try {
-			BufferedReader in = new BufferedReader(
-					new InputStreamReader(connection.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 	
 			String inputLine;
 			while ((inputLine = in.readLine()) != null) {
@@ -52,11 +53,15 @@ public class MeetingsServiceImpl implements MeetingsService {
 			}
 			in.close();
 		} 
+		catch(java.io.FileNotFoundException e){
+			return "";
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return retVal;
 	}
+	//reads how many directories are in a page
 	protected String parseOutput(String inputString) {
 		return ""+ StringUtils.countOccurrencesOf(inputString, "[DIR]");
 	}

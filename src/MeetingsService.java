@@ -1,6 +1,6 @@
 
 public interface MeetingsService {
-	public String composeEmail();
+	public String testRun();
 	public String getName();
 	public void thisIsVoidFunction();
 }

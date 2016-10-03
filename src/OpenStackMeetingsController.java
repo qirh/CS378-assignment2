@@ -10,21 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-
 @Controller
 public class OpenStackMeetingsController {
-	String URL = "http://eavesdrop.openstack.org/meetings";
-	private MeetingsService meetingsService;
-
-	public OpenStackMeetingsController() {}
 	
+	private MeetingsService meetingsService;
+	public OpenStackMeetingsController() {}
 	public OpenStackMeetingsController(MeetingsService meetingsService) {
 		this.meetingsService = meetingsService;
 	}
 	public String getWithGhostEditor() {
 		meetingsService = new MeetingsServiceImpl();
-        return meetingsService.composeEmail();		
+        return meetingsService.testRun();		
 	}
 	
 	@ResponseBody
@@ -38,14 +34,8 @@ public class OpenStackMeetingsController {
 		return "User Agent: " + userAgent;
 	}
 	@ResponseBody
-	@RequestMapping(value = "/compose")
-	public String getComposedEmail() {
-		return meetingsService.composeEmail();
-	}
-	@ResponseBody
 	@RequestMapping("/headers") 	
-	public String getAllHeaders(@RequestHeader HttpHeaders headers)
-	{
+	public String getAllHeaders(@RequestHeader HttpHeaders headers){
 		Set<String> keys = headers.keySet();
 		String response = "";
 		Iterator<String> i = keys.iterator();
@@ -54,12 +44,11 @@ public class OpenStackMeetingsController {
 			List<String> value = headers.get(key);
 			response += key + " " + value;
 		}
-		System.out.println(response);
 		return response;
 	}
 	@ResponseBody
     @RequestMapping(value = "/openstackmeetings")
-    public String bar()
+    public String welcome()
     {
 		return "Welcome to OpenStack meeting statistics calculation page. Please provide project and year as query parameters.";
     }
@@ -77,7 +66,7 @@ public class OpenStackMeetingsController {
     }
 	@ResponseBody
     @RequestMapping(value = "/openstackmeetings", params = {"project", "year"}, method=RequestMethod.GET)
-    public String fullParams(@RequestParam("year") String year, @RequestParam("project") String project)
+    public String fullParams(@RequestParam("project") String project, @RequestParam("year") String year)
     {
 		if( year.matches("^-?\\d+$") ){
 			String x =  new MeetingsServiceImpl().getResponseFromEavesDrop(project.toLowerCase());
@@ -87,7 +76,7 @@ public class OpenStackMeetingsController {
 		else
 			return "Required parameter \"year\" is not a valid integer";
     }
-	public void seMeetingsService(MeetingsService meetingsService) {
+	public void setMeetingsService(MeetingsService meetingsService) {
 		this.meetingsService = meetingsService;
 	}
 }
