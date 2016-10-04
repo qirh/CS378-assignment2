@@ -3,6 +3,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.util.StringUtils;
 
 public class MeetingsServiceImpl implements MeetingsService {
@@ -26,9 +29,9 @@ public class MeetingsServiceImpl implements MeetingsService {
 	public String getName() {
 		return this.name;
 	}
-	public String getResponseFromEavesDrop(String projectName) {
+	public String getResponseFromEavesDrop(String projectName, String year) {
 		String retVal = "";		
-		baseURL += extension + projectName;	
+		baseURL += extension + projectName + "/" + year + "/";
 		String readData = "";
 		try {			
 			eavesdropURL = new URL(baseURL);
@@ -39,8 +42,7 @@ public class MeetingsServiceImpl implements MeetingsService {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return "RETURN: ----> \"" + retVal + "\"\n";
+		return retVal;
 	}
 	protected String readDataFromEavesdrop(URLConnection connection) {
 		String retVal = "";
@@ -63,7 +65,8 @@ public class MeetingsServiceImpl implements MeetingsService {
 	}
 	//reads how many directories are in a page
 	protected String parseOutput(String inputString) {
-		return ""+ StringUtils.countOccurrencesOf(inputString, "[DIR]");
+
+		return ""+ StringUtils.countOccurrencesOf(inputString, "[TXT]");
 	}
 	public void thisIsVoidFunction() {
 		// TODO Auto-generated method stub	

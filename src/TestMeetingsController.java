@@ -57,6 +57,6 @@ public class TestMeetingsController {
 	@Test
 	public void testParams5() {
 		String reply = meetingsController.fullParams("heat", "2014");
-		assertEquals("Number of meeting files: 5", reply);
+		assertEquals("Number of meeting files: 180", reply);
 	}
 }

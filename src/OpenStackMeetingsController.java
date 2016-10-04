@@ -69,7 +69,7 @@ public class OpenStackMeetingsController {
     public String fullParams(@RequestParam("project") String project, @RequestParam("year") String year)
     {
 		if( year.matches("^-?\\d+$") ){
-			String x =  new MeetingsServiceImpl().getResponseFromEavesDrop(project.toLowerCase());
+			String x =  new MeetingsServiceImpl().getResponseFromEavesDrop(project.toLowerCase(), year);
 			return "Number of meeting files: " + x;
 		}
 			

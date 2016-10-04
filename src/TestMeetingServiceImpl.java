@@ -31,8 +31,8 @@ public class TestMeetingServiceImpl {
 	@Test
 	public void testGetResponseFromEavesDrop() {
 		try {
-			String exampleString = "2";
-			String result = meeting.getResponseFromEavesDrop("kosmos");
+			String exampleString = "64";
+			String result = meeting.getResponseFromEavesDrop("kosmos", "2015");
 			assertEquals(exampleString, result);	
 		}
 		catch (Exception e) {
@@ -46,9 +46,9 @@ public class TestMeetingServiceImpl {
 			exampleString += "<html>";
 			exampleString += "</html>";
 			
-			URLConnection connection = mock(URLConnection.class); // Create mock dependency: mock()
+			URLConnection connection = mock(URLConnection.class); 
 			InputStream i = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));		
-			when(connection.getInputStream()).thenReturn(i); // Setting up the expectations
+			when(connection.getInputStream()).thenReturn(i); 
 			String result = meeting.readDataFromEavesdrop(connection);
 			assertEquals(exampleString, result);			
 			verify(connection).getInputStream();	
